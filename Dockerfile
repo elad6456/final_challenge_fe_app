@@ -9,3 +9,4 @@ WORKDIR /app
 ENV CI=true
 COPY ./helloworld.txt ./code/helloworld.txt
 RUN npm test || true
+
