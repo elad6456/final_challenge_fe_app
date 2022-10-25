@@ -1,11 +1,19 @@
 FROM node:14-alpine as builder
+ENV PATH /app/node_modules/.bin:$PATH
 WORKDIR /app
-ENV CI=true
-COPY ./helloworld.txt ./code/helloworld.txt
-RUN npm test || true
+COPY ["package.json", "package-lock.json*", "/."]
+RUN npm install
 
 FROM node:14-alpine as test
-WORKDIR /app
 ENV CI=true
-COPY ./helloworld.txt ./code/helloworld.txt
+WORKDIR /app
+COPY --from=builder ./app/node_modules/ ./app/node_modules/
+COPY . .
 RUN npm test || true
+
+FROM node:14-alpine as delivery
+ENV CI=true
+WORKDIR /app
+COPY --from=builder ./app/node_modules/ ./app/node_modules/
+COPY . .
+CMD [ "npm", "start" ]
