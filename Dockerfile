@@ -1,7 +1,6 @@
-FROM node:14-alpine as builder
+FROM node:14-alpine
 WORKDIR /app
-ENV PATH=/app/node_modules/.bin
-COPY ["package.json", "package-lock.json*", "./"]
+COPY ["package.json", "package-lock.json*","/app"]
 RUN npm install
 
 COPY . .
