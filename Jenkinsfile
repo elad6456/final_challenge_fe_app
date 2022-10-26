@@ -7,7 +7,7 @@ pipeline {
             steps {
                 sh '''
                     echo "-----Running build stage npm install-----"
-                    DOCKER_BUILDKIT=1 docker build -t nodejs-app:${BUILD_NUMBER} --target builder .
+                    DOCKER_BUILDKIT=1 docker build -f Dockerfile_for_pipeline -t nodejs-app:${BUILD_NUMBER} --target builder .
                 '''
             }
         }
@@ -15,7 +15,7 @@ pipeline {
             steps {
                 sh '''
                     echo "-----Running test stage npm test-----"
-                    DOCKER_BUILDKIT=1 docker build -t nodejs-app:${BUILD_NUMBER} --target test .
+                    DOCKER_BUILDKIT=1 docker build -f Dockerfile_for_pipeline -t nodejs-app:${BUILD_NUMBER} --target test .
                 '''
             }
         }
@@ -23,7 +23,7 @@ pipeline {
             steps {
                 sh '''
                     echo "-----Running delivery stage npm start-----"
-                    DOCKER_BUILDKIT=1 docker build -t nodejs-app:${BUILD_NUMBER} --target delivery .
+                    DOCKER_BUILDKIT=1 docker build -f Dockerfile_for_pipeline -t nodejs-app:${BUILD_NUMBER} --target delivery .
                 '''
             }
         }
