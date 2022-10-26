@@ -8,7 +8,7 @@ FROM node:14-alpine as test
 ENV CI=true
 WORKDIR /app
 RUN pwd
-COPY --from=builder /app/node_modules/ ./app/node_modules/
+COPY --from=builder /app/node_modules/ /app/node_modules/
 COPY . .
 RUN npm test || true
 
