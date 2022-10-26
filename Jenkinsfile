@@ -7,7 +7,7 @@ pipeline {
             steps {
                 sh '''
                     echo "-----Running build stage npm install-----"
-                    'DOCKER_BUILDKIT=1 docker build -t nodejs-app:${BUILD_NUMBER} --target builder .
+                    DOCKER_BUILDKIT=1 docker build -t nodejs-app:${BUILD_NUMBER} --target builder .
                 '''
             }
         }
