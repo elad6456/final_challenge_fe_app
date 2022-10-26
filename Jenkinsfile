@@ -18,7 +18,7 @@ pipeline {
                 '''
             }
         }
-        stage('run') {
+        stage('start') {
             steps {
                 sh '''
                     echo "-----Running delivery stage npm start-----"
@@ -26,11 +26,20 @@ pipeline {
                 '''
             }
         }
+        stage('run') {
+            steps {
+                sh '''
+                    echo "-----Running the docker container-----"
+                    docker run -d nodejs-app
+                '''
+            }
+        }
         stage('push-image-to-repo') {
             steps {
                 sh '''
                     echo "-----Pushing docker image to repo-----"
-                    docker image tag nodejs-app elad6456/final_challenge_fe_app:${BUILD_NUMBER}
+                    docker login -u ${username} -p ${pass}
+                    docker image tag nodejs-app elad6456/final_challenge_fe_app:jenkins-${BUILD_NUMBER}
                     docker image tag nodejs-app elad6456/final_challenge_fe_app:latest
                 '''
             }
