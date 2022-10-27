@@ -36,7 +36,7 @@ pipeline {
         }
         stage('push-image-to-repo') {
             steps {
-                sh returnStdout:true; script:"docker login -u ${username} -p ${pass})"
+                sh (script:"set +x && docker login -u ${username} -p ${pass} && set -x")
                 sh '''
                     echo "-----Pushing docker image to repo-----"
                     docker tag elad6456/final_challenge_fe_app elad6456/final_challenge_fe_app:jenkins-${BUILD_NUMBER}
