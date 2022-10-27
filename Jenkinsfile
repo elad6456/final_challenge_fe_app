@@ -1,3 +1,8 @@
+/*disable printing commands in pipeline build logs*/
+def mysh(cmd) {
+    sh('#!/bin/sh -e\n' + cmd)
+}
+
 pipeline {
     agent any
 
@@ -36,11 +41,11 @@ pipeline {
         }
         stage('push-image-to-repo') {
             steps {
+                mysh(docker login -u ${username} -p ${pass})
                 sh '''
                     echo "-----Pushing docker image to repo-----"
                     docker tag elad6456/final_challenge_fe_app elad6456/final_challenge_fe_app:jenkins-${BUILD_NUMBER}
-                    
-                    docker login -u ${username} -p ${pass}
+          
                     docker push elad6456/final_challenge_fe_app --all-tags
                     
                 '''
